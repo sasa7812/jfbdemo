@@ -1,0 +1,136 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 16, 2014, 11:55:42 PM
+    Author     : <a href=mailto:sasa7812@gmail.com>Alexander Nikitin</a>
+*/
+
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 90%;
+}
+
+.ui-datatable .ui-column-filter {
+    width: 85%;
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+    width: 85% !important;
+}
+
+.ui-inputfield {
+    padding: 4px 0;
+}
+
+.ui-selectonemenu {
+    width: 85% !important;
+}
+
+.ui-selectonemenu .ui-selectonemenu-label {
+    padding: 4px;
+}
+
+.ui-datatable .ui-column-filter {
+    width: 85%;
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+    width: 85% !important;
+}
+
+.ui-inputfield {
+    padding: 4px 0;
+}
+
+.ui-selectonemenu {
+    width: 85% !important;
+}
+
+.ui-selectonemenu .ui-selectonemenu-label {
+    padding: 4px;
+}
+
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 90%;
+}
+
+.ui-datatable .ui-column-filter {
+    width: 90%;
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+    width: 90% !important;
+}
+
+.ui-inputfield {
+    padding: 4px 0;
+}
+
+.ui-selectonemenu {
+    width: 90% !important;
+}
+
+.ui-selectonemenu .ui-selectonemenu-label {
+    padding: 4px;
+}
+
+.cust-column-id {
+    width: 6em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.cust-column-depid {
+    width: 6em;
+    text-align: center;
+}
+
+.cust-column-date {
+    width: 8em
+}
+
+.custom-filter {
+    text-align: center;
+}
+
+.selectFilterCB td {
+    white-space: nowrap;
+    width: 1em;
+
+}
+
+.ui-selectmanycheckbox {
+    table-layout: auto !important;
+    width: 85% !important;
+    white-space: nowrap;
+    width: 1em;
+    float: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+}
+
+.ui-selectmanycheckbox tr {
+    height: 20px;
+}
+
+.ui-datatable .ui-selectmanycheckbox tbody td {
+    padding: 0 7px 0 0 !important;
+}
+
+.ui-selectmanycheckbox td label {
+    text-align: left;
+    margin-top: 2px !important;
+}
+
+div#divider {
+    min-height: 30px;
+}
+
+th.ui-state-default {
+    vertical-align: top;
+    padding-top: 7px !important;
+
+}

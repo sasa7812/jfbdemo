@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.savvy</groupId>
+    <artifactId>jfbdemo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.1.8.RELEASE</version>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <postgresql.version>9.3-1102-jdbc41</postgresql.version>
+        <eclipselink.version>2.5.2</eclipselink.version>
+        <joda-time.version>2.4</joda-time.version>
+        <junit.version>4.11</junit.version>
+        <spring.version>4.1.1.RELEASE</spring.version>
+        <spring.data.version>1.7.0.RELEASE</spring.data.version>
+        <h2.version>1.4.182</h2.version>
+        <primefaces.version>5.1</primefaces.version>
+        <mojarra.version>2.2.8</mojarra.version>
+    </properties>
+
+    <modules>
+        <module>jfbdemoweb</module>
+        <module>jpafilterbuilder</module>
+        <module>jfbtestmodel</module>
+    </modules>
+
+</project>
+

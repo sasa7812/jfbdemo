@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>JpaFilterBuilder demo</title>
+</h:head>
+<h:body>
+    <h:outputStylesheet name="css/default.css"/>
+    <h:form>
+        <p:dataTable value="#{employeeMB.lazyDataModel}" var="emp" lazy="true" rows="10" paginator="true"
+                     sortMode="single">
+            <p:column headerText="name" field="name(PART_STRING, CS_STRING)" filterBy="#{emp.name}" sortBy="#{emp.name}"
+                      footerText="PART_STRING, CS_STRING">
+                <p:tooltip value="name(PART_STRING,CS_STRING)"/>
+                <h:outputText value="#{emp.name}"/>
+            </p:column>
+            <p:column headerText="id" field="id(GE)" filterBy="#{emp.id}" sortBy="#{emp.id}" footerText="GE"
+                      styleClass="cust-column-id">
+                <h:outputText value="#{emp.id}"/>
+            </p:column>
+            <p:column headerText="hiredAt" field="hiredAt" filterBy="#{emp.hiredAt}" sortBy="#{emp.hiredAt}" styleClass="cust-column-date">
+                <h:outputText value="#{emp.hiredAt}">
+                    <f:convertDateTime pattern="yyyy.MM.dd" timeZone="Asia/Bangkok"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="department.name" field="department.name" filterBy="#{emp.department.name}"
+                      sortBy="#{emp.department.name}">
+                <h:outputText value="#{emp.department.name}"/>
+            </p:column>
+            <p:column headerText="department.head.name" field="department.head.name"
+                      filterBy="#{emp.department.head.name}" sortBy="#{emp.department.head.name}">
+                <h:outputText value="#{emp.department.head.name}"/>
+            </p:column>
+            <p:column headerText="priveledgeSet.name" field="priveledgeSet.name(OR_NULL)"
+                      filterBy="#{emp.priveledgesString}" sortBy="#{emp.privelegesSet}" footerText="OR_NULL">
+                <h:outputText value="#{emp.priveledgesString}"/>
+            </p:column>
+            <p:column headerText="dep.id" field="department.id(GE)" filterBy="#{emp.department.id}"
+                      sortBy="#{emp.department.id}" footerText="GE" styleClass="cust-column-depid">
+                <h:outputText value="#{emp.department.id}"/>
+            </p:column>
+            <p:column headerText="position.name" field="position.name(OR_NULL)" filterBy="#{emp.position.name}"
+                      sortBy="#{emp.position.name}" footerText="OR_NULL">
+                <h:outputText value="#{emp.position.name}"/>
+            </p:column>
+            <p:column headerText="head.position" field="department.head.position.name(PART_STRING, OR_NULL)"
+                      filterBy="#{emp.department.head.position.name}" sortBy="#{emp.department.head.position.name}"
+                      footerText="PART_STRING, OR_NULL">
+                <h:outputText value="#{emp.department.head.position.name}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+
+    <div id="divider"></div>
+    <h:form>
+        <p:dataTable value="#{employeeComplexMB.lazyDataModel}" var="emp" lazy="true" rows="10" paginator="true"
+                     sortMode="single" id="dataTable">
+            <f:facet name="header">
+                <p:commandButton ajax="true" value="Apply filters" update="dataTable" process="dataTable"
+                                 action="#{employeeComplexMB.applyFilters()}"/>
+                <p:commandButton ajax="true" value="Clear filters" update="dataTable" process="dataTable"
+                                 actionListener="#{employeeComplexMB.clearAllFilters()}"/>
+            </f:facet>
+            <p:column headerText="name" field="name" sortBy="#{emp.name}">
+                <f:facet name="header">
+                    <ui:include src="components/commonFilter.xhtml">
+                        <ui:param name="fieldName" value="name"/>
+                        <ui:param name="fieldType" value="STRING"/>
+                        <ui:param name="headerText" value="name"/>
+                        <ui:param name="controller" value="#{employeeComplexMB}"/>
+                    </ui:include>
+                </f:facet>
+                <h:outputText value="#{emp.name}"/>
+            </p:column>
+            <p:column headerText="id" sortBy="id" styleClass="cust-column-id">
+                <f:facet name="header">
+                    <ui:include src="components/commonFilter.xhtml">
+                        <ui:param name="fieldName" value="id"/>
+                        <ui:param name="fieldType" value="INTEGER"/>
+                        <ui:param name="headerText" value="id"/>
+                        <ui:param name="controller" value="#{employeeComplexMB}"/>
+                        <ui:param name="converter" value="javax.faces.Long"/>
+                    </ui:include>
+                </f:facet>
+                <h:outputText value="#{emp.id}"/>
+            </p:column>
+            <p:column headerText="Hired" sortBy="hiredAt" styleClass="cust-column-date">
+                <f:facet name="header">
+                    <ui:include src="components/timestampFilter.xhtml">
+                        <ui:param name="fieldName" value="hiredAt"/>
+                        <ui:param name="fieldType" value="INTEGER"/>
+                        <ui:param name="headerText" value="hiredAt"/>
+                        <ui:param name="controller" value="#{employeeComplexMB}"/>
+                    </ui:include>
+                </f:facet>
+                <h:outputText value="#{emp.hiredAt}">
+                    <f:convertDateTime pattern="yyyy.MM.dd" timeZone="Asia/Bangkok"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Department" sortBy="department.name">
+                <f:facet name="header">
+                    <ui:include src="components/commonFilter.xhtml">
+                        <ui:param name="fieldName" value="department.name"/>
+                        <ui:param name="fieldType" value="STRING"/>
+                        <ui:param name="headerText" value="department.name"/>
+                        <ui:param name="controller" value="#{employeeComplexMB}"/>
+                    </ui:include>
+                </f:facet>
+                <h:outputText value="#{emp.department.name}"/>
+            </p:column>
+            <p:column headerText="Head" sortBy="department.head.name">
+                <f:facet name="header">
+                    <ui:include src="components/commonFilter.xhtml">
+                        <ui:param name="fieldName" value="department.head.name"/>
+                        <ui:param name="fieldType" value="STRING"/>
+                        <ui:param name="headerText" value="head.name"/>
+                        <ui:param name="controller" value="#{employeeComplexMB}"/>
+                    </ui:include>
+                </f:facet>
+                <h:outputText value="#{emp.department.head.name}"/>
+            </p:column>
+            <p:column headerText="Priveledges">
+                <f:facet name="header">
+                    <ui:include src="components/commonFilter.xhtml">
+                        <ui:param name="fieldName" value="priveledgeSet.name"/>
+                        <ui:param name="fieldType" value="STRING"/>
+                        <ui:param name="headerText" value="priveledges"/>
+                        <ui:param name="controller" value="#{employeeComplexMB}"/>
+                    </ui:include>
+                </f:facet>
+                <h:outputText value="#{emp.priveledgesString}"/>
+            </p:column>
+            <p:column headerText="DepID" sortBy="department.id" styleClass="cust-column-depid">
+                <f:facet name="header">
+                    <ui:include src="components/commonFilter.xhtml">
+                        <ui:param name="fieldName" value="department.id"/>
+                        <ui:param name="fieldType" value="INTEGER"/>
+                        <ui:param name="headerText" value="dep.id"/>
+                        <ui:param name="controller" value="#{employeeComplexMB}"/>
+                        <ui:param name="converter" value="javax.faces.Long"/>
+                    </ui:include>
+                </f:facet>
+                <h:outputText value="#{emp.department.id}"/>
+            </p:column>
+            <p:column headerText="Position" sortBy="position.name">
+                <f:facet name="header">
+                    <ui:include src="components/commonFilter.xhtml">
+                        <ui:param name="fieldName" value="position.name"/>
+                        <ui:param name="fieldType" value="STRING"/>
+                        <ui:param name="headerText" value="position"/>
+                        <ui:param name="controller" value="#{employeeComplexMB}"/>
+                    </ui:include>
+                </f:facet>
+                <h:outputText value="#{emp.position.name}"/>
+            </p:column>
+            <p:column headerText="Dep head position" sortBy="department.head.position.name">
+                <f:facet name="header">
+                    <ui:include src="components/commonFilter.xhtml">
+                        <ui:param name="fieldName" value="department.head.position.name"/>
+                        <ui:param name="fieldType" value="STRING"/>
+                        <ui:param name="headerText" value="head.position"/>
+                        <ui:param name="controller" value="#{employeeComplexMB}"/>
+                    </ui:include>
+                </f:facet>
+                <h:outputText value="#{emp.department.head.position.name}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>
+
