@@ -7,8 +7,10 @@
 package ru.savvy.springjsf.jsf;
 
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import ru.savvy.jpafilterbuilder.FieldFilterHelper;
@@ -45,6 +47,8 @@ public class EmployeeComplexMB implements Serializable {
     public void clearAllFilters() {
         filterHelper.clearAllFilters();
         applyFilters();
+
     }
+
 
 }

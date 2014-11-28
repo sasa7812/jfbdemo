@@ -4,22 +4,15 @@
  */
 package ru.savvy.jpafilterbuilder;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import javax.persistence.EntityManager;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ru.savvy.jpafilterbuilder.FieldFilter.Option;
+
+import javax.persistence.EntityManager;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+
 import static ru.savvy.jpafilterbuilder.FilterConverterHelper.*;
 
 /**

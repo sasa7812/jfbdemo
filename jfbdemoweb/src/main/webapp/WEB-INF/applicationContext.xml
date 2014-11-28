@@ -25,8 +25,8 @@
         <property name="dataSource" ref="dataSource" />
         <property name="packagesToScan" value="ru.savvy.springjsf.entity" />
         <property name="jpaVendorAdapter">
-            <!--<bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter" />-->
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+            <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter" />
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />-->
         </property>
         <property name="jpaProperties">
             <props>

@@ -7,7 +7,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
     <ui:composition>
-        <h:panelGroup layout="block" class="custom-filter" >
+        <h:panelGroup layout="block" class="custom-filter"  >
             <h:outputText value="#{headerText}" /><br />
             <p:inputText value="#{controller.filterHelper.getAccessor(fieldName, fieldType).value}" >
                 <c:if test="#{not empty converter}">

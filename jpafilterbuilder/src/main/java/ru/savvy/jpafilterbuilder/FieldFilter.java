@@ -9,8 +9,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
-/**
- * Immutable
+/**,
  * @author <a href="mailto:sasa7812@gmail.com">Alexander Nikitin</a>
  */
 public class FieldFilter implements Comparable<FieldFilter>, Serializable {

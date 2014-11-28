@@ -19,10 +19,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @todo make inner joins for compound fields garanteed to have joied data
- *
- * @author <a href="mailto:sasa7812@gmail.com">Alexander Nikitin</a>
  * @param <T>
+ * @author <a href="mailto:sasa7812@gmail.com">Alexander Nikitin</a>
+ * @todo make inner joins for compound fields garanteed to have joied data
  */
 public class FilterCriteriaBuilder<T> {
 
@@ -51,10 +50,12 @@ public class FilterCriteriaBuilder<T> {
          */
         OR_FILTERS
     }
+
     public static final Map<Class<?>, Class<?>> WRAPPERS_TO_PRIMITIVES
             = new HashMap<Class<?>, Class<?>>();
     public static final Map<Class<?>, Class<?>> PRIMITIVES_TO_WRAPPERS
             = new HashMap<Class<?>, Class<?>>();
+
     static {
         PRIMITIVES_TO_WRAPPERS.put(boolean.class, Boolean.class);
         PRIMITIVES_TO_WRAPPERS.put(byte.class, Byte.class);
@@ -66,15 +67,15 @@ public class FilterCriteriaBuilder<T> {
         PRIMITIVES_TO_WRAPPERS.put(short.class, Short.class);
         PRIMITIVES_TO_WRAPPERS.put(void.class, Void.class);
 
-        WRAPPERS_TO_PRIMITIVES.put(Boolean.class,boolean.class);
-        WRAPPERS_TO_PRIMITIVES.put(Byte.class,byte.class);
-        WRAPPERS_TO_PRIMITIVES.put(Character.class,char.class);
-        WRAPPERS_TO_PRIMITIVES.put(Double.class,double.class);
-        WRAPPERS_TO_PRIMITIVES.put(Float.class,float.class);
-        WRAPPERS_TO_PRIMITIVES.put(Integer.class,int.class);
-        WRAPPERS_TO_PRIMITIVES.put(Long.class,long.class);
-        WRAPPERS_TO_PRIMITIVES.put(Short.class,short.class);
-        WRAPPERS_TO_PRIMITIVES.put(Void.class,void.class);
+        WRAPPERS_TO_PRIMITIVES.put(Boolean.class, boolean.class);
+        WRAPPERS_TO_PRIMITIVES.put(Byte.class, byte.class);
+        WRAPPERS_TO_PRIMITIVES.put(Character.class, char.class);
+        WRAPPERS_TO_PRIMITIVES.put(Double.class, double.class);
+        WRAPPERS_TO_PRIMITIVES.put(Float.class, float.class);
+        WRAPPERS_TO_PRIMITIVES.put(Integer.class, int.class);
+        WRAPPERS_TO_PRIMITIVES.put(Long.class, long.class);
+        WRAPPERS_TO_PRIMITIVES.put(Short.class, short.class);
+        WRAPPERS_TO_PRIMITIVES.put(Void.class, void.class);
     }
 
     /**
@@ -106,7 +107,7 @@ public class FilterCriteriaBuilder<T> {
         this.options = EnumSet.noneOf(Option.class);
         this.pb = new PredicateBuilder(cb, options);
         this.metamodel = em.getMetamodel();
-        Set<Root<?>> roots = query.getRoots();
+//        Set<Root<?>> roots = query.getRoots();
 //        for (Root<?> r : roots) {
 //            if (r.getJavaType().equals(this.clazz)) {
 //                this.root = (Root<T>) r;
@@ -126,18 +127,18 @@ public class FilterCriteriaBuilder<T> {
      *
      * @param filter
      * @param checkValue if false than value is not checked
-     * @throws IllegalArgumentException
      * @return true if filter is valid
+     * @throws IllegalArgumentException
      */
     private boolean checkFilterValid(FieldFilter filter, boolean checkValue) {
         Class<?> fieldType = getJavaType(filter.getField());
         // arrays
-        if (filter.getValue().getClass().isArray()){
-            Object[] arr = (Object[])filter.getValue();
-            if (arr.length == 0){
+        if (filter.getValue().getClass().isArray()) {
+            Object[] arr = (Object[]) filter.getValue();
+            if (arr.length == 0) {
                 return false;
-            }else{
-                return !checkValue || ((Object[])filter.getValue())[0].getClass().equals(fieldType);
+            } else {
+                return !checkValue || ((Object[]) filter.getValue())[0].getClass().equals(fieldType);
             }
         }
         if (fieldType.isPrimitive()) {
@@ -175,10 +176,10 @@ public class FilterCriteriaBuilder<T> {
     /**
      * Returns Java type of the fieldName
      *
-     * @throws IllegalArgumentException if fieldName isn't valid for given
-     * entity
      * @param fieldName
      * @return
+     * @throws IllegalArgumentException if fieldName isn't valid for given
+     *                                  entity
      */
     public Class<?> getJavaType(String fieldName) {
 
@@ -191,22 +192,18 @@ public class FilterCriteriaBuilder<T> {
                     Attribute att = et.getAttribute(compoundField[i]);
                     if (att.isCollection()) {
                         et = metamodel.entity(getPluralJavaType(et, compoundField[i]));
-                    }
-                    else {
+                    } else {
                         et = metamodel.entity(et.getAttribute(compoundField[i]).getJavaType());
                     }
-                }
-                catch (IllegalArgumentException | IllegalStateException e) {
+                } catch (IllegalArgumentException | IllegalStateException e) {
                     throw new IllegalArgumentException(
                             "Illegal field name " + fieldName + " (" + compoundField[i] + ") for root type " + clazz
                     );
                 }
-            }
-            else {
+            } else {
                 try {
                     return et.getAttribute(compoundField[i]).getJavaType();
-                }
-                catch (IllegalArgumentException | IllegalStateException e) {
+                } catch (IllegalArgumentException | IllegalStateException e) {
                     throw new IllegalArgumentException(
                             "Illegal field name " + fieldName + " (" + compoundField[i] + ") for root type " + clazz
                     );
@@ -228,9 +225,7 @@ public class FilterCriteriaBuilder<T> {
                 if (checkFilterValid(f, true)) {
                     filters.add(f);
                 } else {
-                    if (logger.isErrorEnabled()){
-                        logger.error("Could not apply filter for field: " + f.getField() + " value: " + f.getValue() + " of type: " + f.getValue().getClass());
-                    }
+                    logger.error("Could not apply filter for field: " + f.getField() + " value: " + f.getValue() + " of type: " + f.getValue().getClass());
                 }
             }
         // keep it sorted to avoid inner/outer joins messup
@@ -250,10 +245,9 @@ public class FilterCriteriaBuilder<T> {
         for (FieldFilter filter : filters) {
             Path<?> path;
             if (filter.getOptions().contains(FieldFilter.Option.OR_NULL)) {
-                path = getJoinedPath(rootPath, filter.getField(), true);
-            }
-            else {
-                path = getJoinedPath(rootPath, filter.getField(), false);
+                path = getCompoundJoinedPath(rootPath, filter.getField(), true);
+            } else {
+                path = getCompoundJoinedPath(rootPath, filter.getField(), false);
             }
 
             Predicate p = pb.getPredicate(path, filter);
@@ -267,8 +261,7 @@ public class FilterCriteriaBuilder<T> {
         }
         if (options.contains(Option.OR_FILTERS)) {
             query.where(cb.or(predicates.toArray(new Predicate[0])));
-        }
-        else {
+        } else {
             query.where(cb.and(predicates.toArray(new Predicate[0])));
         }
 
@@ -278,11 +271,10 @@ public class FilterCriteriaBuilder<T> {
         List<Order> orderList = new ArrayList<>();
 
         for (Map.Entry<String, Boolean> me : orders.entrySet()) {
-            Path<?> path = getJoinedPath(rootPath, me.getKey(), true);
+            Path<?> path = getCompoundJoinedPath(rootPath, me.getKey(), true);
             if (me.getValue() == null || me.getValue().equals(true)) {
                 orderList.add(cb.asc(path));
-            }
-            else {
+            } else {
                 orderList.add(cb.desc(path));
             }
         }
@@ -291,18 +283,20 @@ public class FilterCriteriaBuilder<T> {
 
     /**
      * Drop all the options for field in order we do not need them
+     *
      * @param orderByField
      * @return
      */
-    private String clearOrderOptions(String orderByField){
+    private String clearOrderOptions(String orderByField) {
         int idx = orderByField.indexOf("(");
 
         if (idx < 0) { // not found
             return orderByField;
         }
 
-        return orderByField.substring(0,orderByField.indexOf("("));
+        return orderByField.substring(0, orderByField.indexOf("("));
     }
+
     /**
      * Adds order by expressions to the tail of already existing orders of query
      *
@@ -319,39 +313,24 @@ public class FilterCriteriaBuilder<T> {
     }
 
     /**
-     * Criteria API reuses existing joins itself and pretty adequate. At least
-     * EclipseLink realization.
-     *
-     * @todo check it on Hibernate
-     *
      * @param fieldName
      * @return Path of compound field to the primitive type
      */
-    private Path<?> getJoinedPath(Root<T> rootPath, String fieldName, boolean outer) {
+    private Path<?> getCompoundJoinedPath(Root<T> rootPath, String fieldName, boolean outer) {
         String[] compoundField = fieldName.split("\\.");
 
         Join join;
 
         if (compoundField.length == 1) {
             return rootPath.get(compoundField[0]);
-        }
-        else if (compoundField.length == 2 && outer) {
-            join = rootPath.join(compoundField[0], JoinType.LEFT);
-        }
-        else {
-            join = rootPath.join(compoundField[0]);
+        } else {
+            join = reuseJoin(rootPath, compoundField[0], outer);
         }
 
         for (int i = 1; i < compoundField.length; i++) {
             if (i < (compoundField.length - 1)) {
-                if (i == (compoundField.length - 2) && outer) {
-                    join = join.join(compoundField[i], JoinType.LEFT);
-                }
-                else {
-                    join = join.join(compoundField[i]);
-                }
-            }
-            else {
+                join = reuseJoin(join, compoundField[i], outer);
+            } else {
                 return join.get(compoundField[i]);
             }
         }
@@ -359,20 +338,35 @@ public class FilterCriteriaBuilder<T> {
         return null;
     }
 
+    // trying to find already existing joins to reuse
+    private Join reuseJoin(From<?, ?> path, String fieldName, boolean outer) {
+        for (Join join : path.getJoins()) {
+            if (join.getAttribute().getName().equals(fieldName)) {
+                if ((join.getJoinType() == JoinType.LEFT) == outer) {
+                    logger.debug("Reusing existing join for field " + fieldName);
+                    return join;
+                }
+            }
+        }
+        return outer ? path.join(fieldName, JoinType.LEFT) : path.join(fieldName);
+    }
+
+
     /**
-     *  Get sorting field
+     * Get sorting field
+     *
      * @param clazz
      * @return
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
      */
-    private Field getSortAnnotation(Class clazz) throws IllegalArgumentException, IllegalAccessException{
+    private Field getSortAnnotation(Class clazz) throws IllegalArgumentException, IllegalAccessException {
         for (Field f : clazz.getDeclaredFields()) {
             if (f.getAnnotation(DefaultOrder.class) != null) {
                 return f;
             }
         }
-        //if not found, search in superclass.
+        //if not found, search in superclass. todo recursive search
         for (Field f : clazz.getSuperclass().getDeclaredFields()) {
             if (f.getAnnotation(DefaultOrder.class) != null) {
                 return f;
@@ -398,27 +392,26 @@ public class FilterCriteriaBuilder<T> {
         if (query.getOrderList() == null || query.getOrderList().isEmpty()) {
             EntityType<T> entityType = root.getModel();
             try {
-                  Field sortField = getSortAnnotation(entityType.getBindableJavaType());
-                  if (sortField == null)
-                   query.orderBy(cb.asc(root.get(entityType.getId(entityType.getIdType().getJavaType()).getName())));
-                  else {
-                     DefaultOrder order = sortField.getAnnotation(DefaultOrder.class);
-                     if (order.asc()) {
-                         query.orderBy(cb.asc(root.get(sortField.getName())));
-                     } else {
-                         query.orderBy(cb.desc(root.get(sortField.getName())));
-                     }
+                Field sortField = getSortAnnotation(entityType.getBindableJavaType());
+                if (sortField == null)
+                    query.orderBy(cb.asc(root.get(entityType.getId(entityType.getIdType().getJavaType()).getName())));
+                else {
+                    DefaultOrder order = sortField.getAnnotation(DefaultOrder.class);
+                    if (order.asc()) {
+                        query.orderBy(cb.asc(root.get(sortField.getName())));
+                    } else {
+                        query.orderBy(cb.desc(root.get(sortField.getName())));
+                    }
 
-                  }
-            }catch (Exception ex) {
-                Logger.getLogger(FilterCriteriaBuilder.class.getName()).log(Level.WARNING, null, ex);
+                }
+            } catch (Exception ex) {
+                logger.warn("In" + this.getClass().getName(), ex);
             }
         }
         return query;
     }
 
     /**
-     *
      * @return
      */
     public CriteriaQuery<Long> getCountQuery() {

@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
     <ui:composition>
-        <h:panelGroup layout="block" class="custom-filter" >
+        <h:panelGroup layout="block" class="custom-filter">
             <h:outputText value="#{headerText}" /><br />
             <p:calendar value="#{controller.filterHelper.getAccessor(fieldName, fieldType).value}" /><br />
             <p:selectOneMenu value="#{controller.filterHelper.getAccessor(fieldName,fieldType).switchOptions}" >
