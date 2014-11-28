@@ -189,5 +189,14 @@
 
     </dependencies>
 
+    <repositories>
+        <!-- for Primefaces themes -->
+        <repository>
+            <id>Primefaces repo</id>
+            <url>http://repository.primefaces.org/</url>
+        </repository>
+    </repositories>
+
+
 </project>
 
