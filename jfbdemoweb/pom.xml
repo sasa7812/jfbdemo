@@ -19,7 +19,7 @@
         <postgresql.version>42.3.3</postgresql.version>
         <eclipselink.version>2.5.2</eclipselink.version>
         <joda-time.version>2.4</joda-time.version>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.13.1</junit.version>
         <spring.version>4.1.1.RELEASE</spring.version>
         <spring.data.version>1.7.0.RELEASE</spring.data.version>
     </properties>
